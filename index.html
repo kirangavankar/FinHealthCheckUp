@@ -4,100 +4,551 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Health Check-Up | FinHealthCheckUp</title>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MXBL6KX7RL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MXBL6KX7RL');
-</script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXBL6KX7RL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MXBL6KX7RL');
+    </script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%); color: #333; line-height: 1.6; }
-        header { background: linear-gradient(90deg, #1a3a5f 0%, #2a5298 100%); color: white; padding: 1.5rem 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .header-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; }
-        .logo i { font-size: 2.2rem; margin-right: 15px; color: #4caf50; }
-        .logo h1 { font-size: 1.8rem; font-weight: 700; }
-        .logo span { color: #4caf50; font-weight: 700; }
-        .contact-info p { margin: 5px 0; font-size: 0.9rem; }
-        .hero { background: linear-gradient(rgba(26,58,95,0.85), rgba(26,58,95,0.85)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; color: white; padding: 5rem 0; text-align: center; }
-        .hero-content { max-width: 800px; margin: 0 auto; }
-        .hero h2 { font-size: 2.8rem; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
-        .btn { display: inline-block; background: #4caf50; color: white; padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; cursor: pointer; }
-        .btn:hover { background: #43a047; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
-        .calculator-section { padding: 5rem 0; }
-        .section-title { text-align: center; margin-bottom: 3rem; }
-        .section-title h2 { font-size: 2.3rem; color: #1a3a5f; margin-bottom: 1rem; position: relative; display: inline-block; }
-        .section-title h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: #4caf50; border-radius: 2px; }
-        .section-title p { color: #666; max-width: 700px; margin: 0 auto; font-size: 1.1rem; }
-        .calculator-container { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; max-width: 900px; margin: 0 auto; }
-        .calculator-header { background: #2a5298; color: white; padding: 1.5rem; text-align: center; }
-        .calculator-header h3 { font-size: 1.5rem; }
-        .calculator-content { padding: 2.5rem; }
-        .question { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
-        .question:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .question h4 { font-size: 1.2rem; color: #1a3a5f; margin-bottom: 1.5rem; }
-        .options { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .option { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 15px; cursor: pointer; transition: all 0.3s ease; }
-        .option:hover { border-color: #a3bffa; background: #ebf4ff; }
-        .option.selected { border-color: #4299e1; background: #ebf8ff; box-shadow: 0 4px 6px rgba(66,153,225,0.2); }
-        .option h5 { font-size: 1rem; margin-bottom: 8px; color: #2d3748; }
-        .option p { font-size: 0.9rem; color: #718096; }
-        .progress-container { margin: 2rem 0; }
-        .progress-bar { height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; }
-        .progress { height: 100%; background: linear-gradient(90deg, #4caf50, #2a5298); width: 0%; transition: width 0.5s ease; }
-        .progress-text { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.9rem; color: #666; }
-        .btn-container { text-align: center; margin-top: 2.5rem; }
-        .result-container { display: none; text-align: center; padding: 2rem; background: #f0f9ff; border-radius: 10px; margin-top: 2rem; }
-        .result-container h3 { font-size: 1.8rem; color: #1a3a5f; margin-bottom: 1.5rem; }
-        .score-circle { width: 180px; height: 180px; border-radius: 50%; background: #f8fafc; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .score-value { font-size: 3.5rem; font-weight: 700; color: #2a5298; }
-        .score-text { font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem; }
-        .score-description { max-width: 700px; margin: 0 auto 2rem; font-size: 1.1rem; line-height: 1.8; }
-        .benefits { background: #f8fafc; padding: 4rem 0; }
-        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 2rem; }
-        .benefit-card { background: white; border-radius: 15px; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease; }
-        .benefit-card:hover { transform: translateY(-10px); }
-        .benefit-icon { width: 80px; height: 80px; background: linear-gradient(135deg, #2a5298 0%, #4caf50 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; }
-        .benefit-card h4 { font-size: 1.4rem; color: #1a3a5f; margin-bottom: 1rem; }
-        .benefit-card p { color: #666; }
-        .cta-section { background: linear-gradient(90deg, #1a3a5f 0%, #2a5298 100%); padding: 5rem 0; text-align: center; color: white; }
-        .cta-content { max-width: 700px; margin: 0 auto; }
-        .cta-section h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
-        .cta-section p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
-        .contact-form { background: white; padding: 3rem; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); max-width: 600px; margin: 3rem auto 0; }
-        .form-group { margin-bottom: 1.5rem; text-align: left; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: #1a3a5f; font-weight: 500; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; transition: border-color 0.3s; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #2a5298; box-shadow: 0 0 0 3px rgba(42,82,152,0.1); }
-        footer { background: #0f1c2e; color: #cbd5e0; padding: 3rem 0 2rem; }
-        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 2rem; }
-        .footer-column h4 { color: white; font-size: 1.3rem; margin-bottom: 1.5rem; position: relative; padding-bottom: 10px; }
-        .footer-column h4::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 3px; background: #4caf50; }
-        .footer-column p, .footer-column li { margin-bottom: 10px; font-size: 0.95rem; }
-        .footer-column ul { list-style: none; }
-        .footer-column ul li { display: flex; align-items: center; }
-        .footer-column ul li i { margin-right: 10px; color: #4caf50; }
-        .social-icons { display: flex; margin-top: 1rem; }
-        .social-icons a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #1e3a5f; border-radius: 50%; margin-right: 10px; color: white; text-decoration: none; transition: background 0.3s; }
-        .social-icons a:hover { background: #4caf50; }
-        .copyright { text-align: center; padding-top: 2rem; border-top: 1px solid #1e3a5f; font-size: 0.9rem; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #1a3a5f 0%, #2a5298 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+            margin-right: 15px;
+            color: #4caf50;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: #4caf50;
+            font-weight: 700;
+        }
+        
+        .contact-info {
+            text-align: right;
+        }
+        
+        .contact-info p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(26, 58, 95, 0.85), rgba(26, 58, 95, 0.85)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #43a047;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .calculator-section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.3rem;
+            color: #1a3a5f;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #4caf50;
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .calculator-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .calculator-header {
+            background: #2a5298;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .calculator-header h3 {
+            font-size: 1.5rem;
+        }
+        
+        .calculator-content {
+            padding: 2.5rem;
+        }
+        
+        .question {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .question h4 {
+            font-size: 1.2rem;
+            color: #1a3a5f;
+            margin-bottom: 1.5rem;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .option {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            border-color: #a3bffa;
+            background: #ebf4ff;
+        }
+        
+        .option.selected {
+            border-color: #4299e1;
+            background: #ebf8ff;
+            box-shadow: 0 4px 6px rgba(66, 153, 225, 0.2);
+        }
+        
+        .option h5 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+        
+        .option p {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+        
+        .progress-container {
+            margin: 2rem 0;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #2a5298);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 2.5rem;
+        }
+        
+        .result-container {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: #f0f9ff;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        
+        .result-container h3 {
+            font-size: 1.8rem;
+            color: #1a3a5f;
+            margin-bottom: 1.5rem;
+        }
+        
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: #f8fafc;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .score-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #2a5298;
+        }
+        
+        .score-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .score-description {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .benefits {
+            background: #f8fafc;
+            padding: 4rem 0;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 2rem;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2a5298 0%, #4caf50 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .benefit-card h4 {
+            font-size: 1.4rem;
+            color: #1a3a5f;
+            margin-bottom: 1rem;
+        }
+        
+        .benefit-card p {
+            color: #666;
+        }
+        
+        .cta-section {
+            background: linear-gradient(90deg, #1a3a5f 0%, #2a5298 100%);
+            padding: 5rem 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .contact-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            margin: 3rem auto 0;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1a3a5f;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+        
+        footer {
+            background: #0f1c2e;
+            color: #cbd5e0;
+            padding: 3rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h4 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #4caf50;
+            border-radius: 2px;
+        }
+        
+        .footer-column p, .footer-column li {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-column ul li i {
+            margin-right: 10px;
+            color: #4caf50;
+        }
+        
+        .social-icons {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #1e3a5f;
+            border-radius: 50%;
+            margin-right: 10px;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: #4caf50;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #1e3a5f;
+            font-size: 0.9rem;
+        }
+        
         @media (max-width: 768px) {
-            .header-content { flex-direction: column; text-align: center; }
-            .logo { margin-bottom: 15px; justify-content: center; }
-            .hero h2 { font-size: 2.2rem; }
-            .calculator-content { padding: 1.5rem; }
-            .section-title h2 { font-size: 2rem; }
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+            
+            .contact-info {
+                text-align: center;
+                width: 100%;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .calculator-content {
+                padding: 1.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .contact-form {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -113,6 +564,7 @@
         </div>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -123,6 +575,7 @@
         </div>
     </section>
 
+    <!-- Calculator Section -->
     <section id="calculator" class="calculator-section">
         <div class="container">
             <div class="section-title">
@@ -147,6 +600,7 @@
                     </div>
                     
                     <form id="financial-form">
+                        <!-- Question 1 -->
                         <div class="question" data-step="1">
                             <h4>1. What is your age group?</h4>
                             <div class="options">
@@ -173,6 +627,7 @@
                             </div>
                         </div>
                         
+                        <!-- Question 2 -->
                         <div class="question" data-step="2" style="display: none;">
                             <h4>2. What is your approximate annual income?</h4>
                             <div class="options">
@@ -199,6 +654,7 @@
                             </div>
                         </div>
                         
+                        <!-- Question 3 -->
                         <div class="question" data-step="3" style="display: none;">
                             <h4>3. What percentage of your income do you save each month?</h4>
                             <div class="options">
@@ -225,6 +681,7 @@
                             </div>
                         </div>
                         
+                        <!-- Question 4 -->
                         <div class="question" data-step="4" style="display: none;">
                             <h4>4. How much emergency fund do you have?</h4>
                             <div class="options">
@@ -251,6 +708,7 @@
                             </div>
                         </div>
                         
+                        <!-- Question 5 -->
                         <div class="question" data-step="5" style="display: none;">
                             <h4>5. What percentage of your income goes towards debt repayment?</h4>
                             <div class="options">
@@ -277,6 +735,7 @@
                             </div>
                         </div>
                         
+                        <!-- Question 6 -->
                         <div class="question" data-step="6" style="display: none;">
                             <h4>6. How much life insurance coverage do you have?</h4>
                             <div class="options">
@@ -303,6 +762,7 @@
                             </div>
                         </div>
                         
+                        <!-- Question 7 -->
                         <div class="question" data-step="7" style="display: none;">
                             <h4>7. How would you describe your investment portfolio?</h4>
                             <div class="options">
@@ -329,6 +789,7 @@
                             </div>
                         </div>
                         
+                        <!-- Question 8 -->
                         <div class="question" data-step="8" style="display: none;">
                             <h4>8. How would you rate your retirement planning?</h4>
                             <div class="options">
@@ -378,6 +839,7 @@
         </div>
     </section>
 
+    <!-- Benefits Section -->
     <section class="benefits">
         <div class="container">
             <div class="section-title">
@@ -413,6 +875,7 @@
         </div>
     </section>
 
+    <!-- CTA Section -->
     <section id="contact" class="cta-section">
         <div class="container">
             <div class="cta-content">
@@ -420,6 +883,7 @@
                 <p>Our certified financial advisors will contact you to discuss your financial health assessment and provide customized recommendations.</p>
                 
                 <div class="contact-form">
+                    <!-- Formspree Integration -->
                     <form id="lead-form" action="https://formspree.io/f/xldlzwwz" method="POST">
                         <div class="form-group">
                             <label for="name">Full Name</label>
@@ -438,7 +902,7 @@
                         
                         <div class="form-group">
                             <label for="message">Financial Goals</label>
-                            <textarea id="message" name="message" rows="4" placeholder="Tell us about your financial goals and concerns..."></textarea>
+                            <textarea id="message" name="message" rows="4" placeholder="Tell us about your financial goals and concerns..." required></textarea>
                         </div>
                         
                         <button type="submit" class="btn">Request Free Consultation</button>
@@ -448,6 +912,7 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -492,25 +957,34 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Calculator functionality
             let currentStep = 1;
             const totalSteps = 8;
             let answers = Array(totalSteps).fill(0);
+            
+            // Progress bar elements
             const progressBar = document.getElementById('progress-bar');
             const progressText = document.getElementById('progress-text');
+            
+            // Button elements
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
             const submitBtn = document.getElementById('submit-btn');
             const resultContainer = document.getElementById('result-container');
             
+            // Update progress bar
             function updateProgress() {
                 const progressPercentage = ((currentStep - 1) / totalSteps) * 100;
                 progressBar.style.width = `${progressPercentage}%`;
                 progressText.textContent = `${Math.round(progressPercentage)}%`;
+                
+                // Show/hide buttons
                 prevBtn.style.display = currentStep > 1 ? 'inline-block' : 'none';
                 nextBtn.style.display = currentStep < totalSteps ? 'inline-block' : 'none';
                 submitBtn.style.display = currentStep === totalSteps ? 'inline-block' : 'none';
             }
             
+            // Show current question
             function showCurrentStep() {
                 document.querySelectorAll('.question').forEach(question => {
                     if (parseInt(question.dataset.step) === currentStep) {
@@ -521,22 +995,30 @@
                 });
             }
             
+            // Option selection
             document.querySelectorAll('.option').forEach(option => {
                 option.addEventListener('click', function() {
+                    // Remove selected class from siblings
                     this.parentElement.querySelectorAll('.option').forEach(opt => {
                         opt.classList.remove('selected');
                     });
+                    
+                    // Add selected class to clicked option
                     this.classList.add('selected');
+                    
+                    // Store the selected value
                     const step = this.closest('.question').dataset.step;
                     answers[step - 1] = parseInt(this.dataset.value);
                 });
             });
             
+            // Navigation
             nextBtn.addEventListener('click', function() {
                 if (answers[currentStep - 1] === 0) {
                     alert('Please select an option to proceed');
                     return;
                 }
+                
                 if (currentStep < totalSteps) {
                     currentStep++;
                     showCurrentStep();
@@ -552,52 +1034,74 @@
                 }
             });
             
+            // Submit assessment
             submitBtn.addEventListener('click', function() {
                 if (answers[currentStep - 1] === 0) {
                     alert('Please select an option to proceed');
                     return;
                 }
+                
+                // Calculate score (max 40)
                 const totalScore = answers.reduce((sum, value) => sum + value, 0);
                 const scorePercentage = Math.round((totalScore / 40) * 100);
+                
+                // Set score display
                 document.getElementById('score-value').textContent = scorePercentage;
                 
+                // Set score description
                 let scoreText, description;
                 if (scorePercentage >= 80) {
                     scoreText = "Excellent Financial Health";
-                    description = "Congratulations! Your financial health is excellent. You have strong savings, adequate insurance coverage, and a well-diversified investment portfolio.";
+                    description = "Congratulations! Your financial health is excellent. You have strong savings, adequate insurance coverage, and a well-diversified investment portfolio. Continue monitoring your finances and consider estate planning to preserve your wealth.";
                 } else if (scorePercentage >= 60) {
                     scoreText = "Good Financial Health";
-                    description = "Your financial health is in good shape, but there's room for improvement. Consider increasing your life insurance coverage and diversifying your investments.";
+                    description = "Your financial health is in good shape, but there's room for improvement. You have a solid foundation with decent savings and manageable debt. Consider increasing your life insurance coverage and diversifying your investments to achieve greater financial security.";
                 } else if (scorePercentage >= 40) {
                     scoreText = "Fair Financial Health";
-                    description = "Your financial health needs attention. Focus on building your emergency fund and increasing insurance coverage to protect your family's future.";
+                    description = "Your financial health needs attention. While you have some savings and insurance, there are significant gaps to address. Focus on building your emergency fund, reducing high-interest debt, and increasing your insurance coverage to protect your family's future.";
                 } else {
                     scoreText = "Poor Financial Health";
-                    description = "Your financial health requires immediate attention. Create a budget, establish an emergency fund, and obtain adequate life insurance protection.";
+                    description = "Your financial health requires immediate attention. You have minimal savings, inadequate insurance coverage, and potentially high debt. It's crucial to create a budget, establish an emergency fund, and obtain adequate life insurance protection as soon as possible.";
                 }
                 
                 document.getElementById('score-text').textContent = scoreText;
                 document.getElementById('score-description').innerHTML = `<p>${description}</p>`;
+                
+                // Show result
                 resultContainer.style.display = 'block';
+                
+                // Scroll to result
                 resultContainer.scrollIntoView({ behavior: 'smooth' });
+                
+                // Track assessment completion with Google Analytics
+                gtag('event', 'assessment_completed', {
+                    'event_category': 'Engagement',
+                    'event_label': 'Financial Assessment',
+                    'value': scorePercentage
+                });
             });
             
-            document.getElementById('lead-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                alert(`Thank you ${name}! Our financial advisor will contact you shortly at ${phone} or ${email}.`);
-                this.reset();
-            });
+            // Form submission handling
+            const leadForm = document.getElementById('lead-form');
+            if (leadForm) {
+                leadForm.addEventListener('submit', function(e) {
+                    // Track form submission with Google Analytics
+                    gtag('event', 'form_submitted', {
+                        'event_category': 'Lead Generation',
+                        'event_label': 'Consultation Request'
+                    });
+                    
+                    // Show confirmation message
+                    setTimeout(function() {
+                        alert('Thank you! Our financial advisor will contact you shortly.');
+                    }, 500);
+                });
+            }
             
+            // Initialize
             showCurrentStep();
             updateProgress();
         });
     </script>
 </body>
-
 </html>
-
-
-
