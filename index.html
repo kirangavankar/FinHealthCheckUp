@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Health Check-Up | FinHealthCheckUp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%); color: #333; line-height: 1.6; }
+        header { background: linear-gradient(90deg, #1a3a5f 0%, #2a5298 100%); color: white; padding: 1.5rem 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; }
+        .logo i { font-size: 2.2rem; margin-right: 15px; color: #4caf50; }
+        .logo h1 { font-size: 1.8rem; font-weight: 700; }
+        .logo span { color: #4caf50; font-weight: 700; }
+        .contact-info p { margin: 5px 0; font-size: 0.9rem; }
+        .hero { background: linear-gradient(rgba(26,58,95,0.85), rgba(26,58,95,0.85)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; color: white; padding: 5rem 0; text-align: center; }
+        .hero-content { max-width: 800px; margin: 0 auto; }
+        .hero h2 { font-size: 2.8rem; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
+        .btn { display: inline-block; background: #4caf50; color: white; padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; cursor: pointer; }
+        .btn:hover { background: #43a047; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+        .calculator-section { padding: 5rem 0; }
+        .section-title { text-align: center; margin-bottom: 3rem; }
+        .section-title h2 { font-size: 2.3rem; color: #1a3a5f; margin-bottom: 1rem; position: relative; display: inline-block; }
+        .section-title h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: #4caf50; border-radius: 2px; }
+        .section-title p { color: #666; max-width: 700px; margin: 0 auto; font-size: 1.1rem; }
+        .calculator-container { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; max-width: 900px; margin: 0 auto; }
+        .calculator-header { background: #2a5298; color: white; padding: 1.5rem; text-align: center; }
+        .calculator-header h3 { font-size: 1.5rem; }
+        .calculator-content { padding: 2.5rem; }
+        .question { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
+        .question:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .question h4 { font-size: 1.2rem; color: #1a3a5f; margin-bottom: 1.5rem; }
+        .options { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .option { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 15px; cursor: pointer; transition: all 0.3s ease; }
+        .option:hover { border-color: #a3bffa; background: #ebf4ff; }
+        .option.selected { border-color: #4299e1; background: #ebf8ff; box-shadow: 0 4px 6px rgba(66,153,225,0.2); }
+        .option h5 { font-size: 1rem; margin-bottom: 8px; color: #2d3748; }
+        .option p { font-size: 0.9rem; color: #718096; }
+        .progress-container { margin: 2rem 0; }
+        .progress-bar { height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; }
+        .progress { height: 100%; background: linear-gradient(90deg, #4caf50, #2a5298); width: 0%; transition: width 0.5s ease; }
+        .progress-text { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.9rem; color: #666; }
+        .btn-container { text-align: center; margin-top: 2.5rem; }
+        .result-container { display: none; text-align: center; padding: 2rem; background: #f0f9ff; border-radius: 10px; margin-top: 2rem; }
+        .result-container h3 { font-size: 1.8rem; color: #1a3a5f; margin-bottom: 1.5rem; }
+        .score-circle { width: 180px; height: 180px; border-radius: 50%; background: #f8fafc; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .score-value { font-size: 3.5rem; font-weight: 700; color: #2a5298; }
+        .score-text { font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem; }
+        .score-description { max-width: 700px; margin: 0 auto 2rem; font-size: 1.1rem; line-height: 1.8; }
+        .benefits { background: #f8fafc; padding: 4rem 0; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 2rem; }
+        .benefit-card { background: white; border-radius: 15px; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease; }
+        .benefit-card:hover { transform: translateY(-10px); }
+        .benefit-icon { width: 80px; height: 80px; background: linear-gradient(135deg, #2a5298 0%, #4caf50 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; }
+        .benefit-card h4 { font-size: 1.4rem; color: #1a3a5f; margin-bottom: 1rem; }
+        .benefit-card p { color: #666; }
+        .cta-section { background: linear-gradient(90deg, #1a3a5f 0%, #2a5298 100%); padding: 5rem 0; text-align: center; color: white; }
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-section h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .cta-section p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
+        .contact-form { background: white; padding: 3rem; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); max-width: 600px; margin: 3rem auto 0; }
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: #1a3a5f; font-weight: 500; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #2a5298; box-shadow: 0 0 0 3px rgba(42,82,152,0.1); }
+        footer { background: #0f1c2e; color: #cbd5e0; padding: 3rem 0 2rem; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 2rem; }
+        .footer-column h4 { color: white; font-size: 1.3rem; margin-bottom: 1.5rem; position: relative; padding-bottom: 10px; }
+        .footer-column h4::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 3px; background: #4caf50; }
+        .footer-column p, .footer-column li { margin-bottom: 10px; font-size: 0.95rem; }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { display: flex; align-items: center; }
+        .footer-column ul li i { margin-right: 10px; color: #4caf50; }
+        .social-icons { display: flex; margin-top: 1rem; }
+        .social-icons a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #1e3a5f; border-radius: 50%; margin-right: 10px; color: white; text-decoration: none; transition: background 0.3s; }
+        .social-icons a:hover { background: #4caf50; }
+        .copyright { text-align: center; padding-top: 2rem; border-top: 1px solid #1e3a5f; font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; text-align: center; }
+            .logo { margin-bottom: 15px; justify-content: center; }
+            .hero h2 { font-size: 2.2rem; }
+            .calculator-content { padding: 1.5rem; }
+            .section-title h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <h1>Fin<span>Health</span>CheckUp</h1>
+                </div>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone-alt"></i> +91 9619559321</p>
+                    <p><i class="fas fa-envelope"></i> finhealthcheckup@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Take Control of Your Financial Future</h2>
+                <p>Discover your financial health score with our comprehensive assessment and get personalized recommendations to secure your financial wellbeing.</p>
+                <a href="#calculator" class="btn">Start Free Assessment</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="calculator" class="calculator-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Financial Fitness Calculator</h2>
+                <p>Answer these 8 simple questions to evaluate your financial health and get personalized insights</p>
+            </div>
+            
+            <div class="calculator-container">
+                <div class="calculator-header">
+                    <h3>Financial Health Assessment</h3>
+                </div>
+                
+                <div class="calculator-content">
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-bar"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>Progress</span>
+                            <span id="progress-text">0%</span>
+                        </div>
+                    </div>
+                    
+                    <form id="financial-form">
+                        <div class="question" data-step="1">
+                            <h4>1. What is your age group?</h4>
+                            <div class="options">
+                                <div class="option" data-value="1">
+                                    <h5>Below 25</h5>
+                                    <p>Just starting your career</p>
+                                </div>
+                                <div class="option" data-value="2">
+                                    <h5>26 - 35</h5>
+                                    <p>Early career stage</p>
+                                </div>
+                                <div class="option" data-value="3">
+                                    <h5>36 - 45</h5>
+                                    <p>Mid career stage</p>
+                                </div>
+                                <div class="option" data-value="4">
+                                    <h5>46 - 55</h5>
+                                    <p>Approaching retirement</p>
+                                </div>
+                                <div class="option" data-value="5">
+                                    <h5>Above 55</h5>
+                                    <p>Retired or near retirement</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="question" data-step="2" style="display: none;">
+                            <h4>2. What is your approximate annual income?</h4>
+                            <div class="options">
+                                <div class="option" data-value="1">
+                                    <h5>Less than ₹5 Lakh</h5>
+                                    <p>Entry level income</p>
+                                </div>
+                                <div class="option" data-value="2">
+                                    <h5>₹5 - ₹10 Lakh</h5>
+                                    <p>Growing income</p>
+                                </div>
+                                <div class="option" data-value="3">
+                                    <h5>₹10 - ₹20 Lakh</h5>
+                                    <p>Comfortable income</p>
+                                </div>
+                                <div class="option" data-value="4">
+                                    <h5>₹20 - ₹50 Lakh</h5>
+                                    <p>High income</p>
+                                </div>
+                                <div class="option" data-value="5">
+                                    <h5>Above ₹50 Lakh</h5>
+                                    <p>Wealthy</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="question" data-step="3" style="display: none;">
+                            <h4>3. What percentage of your income do you save each month?</h4>
+                            <div class="options">
+                                <div class="option" data-value="1">
+                                    <h5>Less than 10%</h5>
+                                    <p>Minimal savings</p>
+                                </div>
+                                <div class="option" data-value="2">
+                                    <h5>10% - 20%</h5>
+                                    <p>Moderate savings</p>
+                                </div>
+                                <div class="option" data-value="3">
+                                    <h5>20% - 30%</h5>
+                                    <p>Good savings</p>
+                                </div>
+                                <div class="option" data-value="4">
+                                    <h5>30% - 40%</h5>
+                                    <p>Excellent savings</p>
+                                </div>
+                                <div class="option" data-value="5">
+                                    <h5>More than 40%</h5>
+                                    <p>Exceptional savings</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="question" data-step="4" style="display: none;">
+                            <h4>4. How much emergency fund do you have?</h4>
+                            <div class="options">
+                                <div class="option" data-value="1">
+                                    <h5>Less than 1 month expenses</h5>
+                                    <p>Very low emergency fund</p>
+                                </div>
+                                <div class="option" data-value="2">
+                                    <h5>1-3 months expenses</h5>
+                                    <p>Basic emergency fund</p>
+                                </div>
+                                <div class="option" data-value="3">
+                                    <h5>3-6 months expenses</h5>
+                                    <p>Adequate emergency fund</p>
+                                </div>
+                                <div class="option" data-value="4">
+                                    <h5>6-12 months expenses</h5>
+                                    <p>Strong emergency fund</p>
+                                </div>
+                                <div class="option" data-value="5">
+                                    <h5>More than 12 months</h5>
+                                    <p>Exceptional emergency fund</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="question" data-step="5" style="display: none;">
+                            <h4>5. What percentage of your income goes towards debt repayment?</h4>
+                            <div class="options">
+                                <div class="option" data-value="5">
+                                    <h5>No debt</h5>
+                                    <p>You have no debt obligations</p>
+                                </div>
+                                <div class="option" data-value="4">
+                                    <h5>Less than 10%</h5>
+                                    <p>Minimal debt burden</p>
+                                </div>
+                                <div class="option" data-value="3">
+                                    <h5>10% - 20%</h5>
+                                    <p>Manageable debt</p>
+                                </div>
+                                <div class="option" data-value="2">
+                                    <h5>20% - 40%</h5>
+                                    <p>Significant debt burden</p>
+                                </div>
+                                <div class="option" data-value="1">
+                                    <h5>More than 40%</h5>
+                                    <p>High debt burden</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="question" data-step="6" style="display: none;">
+                            <h4>6. How much life insurance coverage do you have?</h4>
+                            <div class="options">
+                                <div class="option" data-value="1">
+                                    <h5>No coverage</h5>
+                                    <p>No life insurance policy</p>
+                                </div>
+                                <div class="option" data-value="2">
+                                    <h5>Less than 5x annual income</h5>
+                                    <p>Insufficient coverage</p>
+                                </div>
+                                <div class="option" data-value="3">
+                                    <h5>5x - 10x annual income</h5>
+                                    <p>Basic coverage</p>
+                                </div>
+                                <div class="option" data-value="4">
+                                    <h5>10x - 15x annual income</h5>
+                                    <p>Adequate coverage</p>
+                                </div>
+                                <div class="option" data-value="5">
+                                    <h5>More than 15x annual income</h5>
+                                    <p>Excellent coverage</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="question" data-step="7" style="display: none;">
+                            <h4>7. How would you describe your investment portfolio?</h4>
+                            <div class="options">
+                                <div class="option" data-value="1">
+                                    <h5>No investments</h5>
+                                    <p>Only savings accounts</p>
+                                </div>
+                                <div class="option" data-value="2">
+                                    <h5>Mostly safe investments (FDs, bonds)</h5>
+                                    <p>Low risk, low return</p>
+                                </div>
+                                <div class="option" data-value="3">
+                                    <h5>Balanced portfolio</h5>
+                                    <p>Mix of safe and growth assets</p>
+                                </div>
+                                <div class="option" data-value="4">
+                                    <h5>Growth-oriented portfolio</h5>
+                                    <p>Significant equity exposure</p>
+                                </div>
+                                <div class="option" data-value="5">
+                                    <h5>Diversified across assets</h5>
+                                    <p>Stocks, mutual funds, real estate, etc.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="question" data-step="8" style="display: none;">
+                            <h4>8. How would you rate your retirement planning?</h4>
+                            <div class="options">
+                                <div class="option" data-value="1">
+                                    <h5>No planning</h5>
+                                    <p>Haven't started planning</p>
+                                </div>
+                                <div class="option" data-value="2">
+                                    <h5>Just started</h5>
+                                    <p>Minimal contributions</p>
+                                </div>
+                                <div class="option" data-value="3">
+                                    <h5>Basic planning</h5>
+                                    <p>Regular contributions</p>
+                                </div>
+                                <div class="option" data-value="4">
+                                    <h5>Well planned</h5>
+                                    <p>On track for retirement</p>
+                                </div>
+                                <div class="option" data-value="5">
+                                    <h5>Extensive planning</h5>
+                                    <p>Ahead of retirement goals</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="btn-container">
+                            <button type="button" id="prev-btn" class="btn" style="background: #6c757d; display: none;">Previous Question</button>
+                            <button type="button" id="next-btn" class="btn">Next Question</button>
+                            <button type="button" id="submit-btn" class="btn" style="display: none;">Get Your Financial Score</button>
+                        </div>
+                    </form>
+                    
+                    <div class="result-container" id="result-container">
+                        <h3>Your Financial Health Score</h3>
+                        <div class="score-circle">
+                            <div class="score-value" id="score-value">72</div>
+                        </div>
+                        <div class="score-text" id="score-text">Good Financial Health</div>
+                        <div class="score-description" id="score-description">
+                            <p>Your financial health is in good shape, but there's room for improvement. You have a solid foundation with decent savings and manageable debt. Consider increasing your life insurance coverage and diversifying your investments to achieve greater financial security.</p>
+                        </div>
+                        <a href="#contact" class="btn">Get Personalized Advice</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Check Your Financial Health?</h2>
+                <p>Regular financial health assessments help you make informed decisions for a secure future</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Risk Protection</h4>
+                    <p>Identify gaps in your insurance coverage to protect your family from unforeseen circumstances.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Wealth Growth</h4>
+                    <p>Discover opportunities to optimize your investments and accelerate wealth creation.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <h4>Retirement Planning</h4>
+                    <p>Ensure you're on track for a comfortable retirement with the lifestyle you desire.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Get Personalized Financial Advice</h2>
+                <p>Our certified financial advisors will contact you to discuss your financial health assessment and provide customized recommendations.</p>
+                
+                <div class="contact-form">
+                    <form id="lead-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Financial Goals</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Tell us about your financial goals and concerns..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Request Free Consultation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>About Us</h4>
+                    <p>FinHealthCheckUp is a leading financial advisory firm based in Mumbai, India. We help individuals and families achieve financial security through personalized planning and expert advice.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Financial District, Mumbai, India</li>
+                        <li><i class="fas fa-phone-alt"></i> +91 9619559321</li>
+                        <li><i class="fas fa-envelope"></i> finhealthcheckup@gmail.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 9:00 AM - 6:00 PM</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Life Insurance Planning</li>
+                        <li><i class="fas fa-check-circle"></i> Investment Advisory</li>
+                        <li><i class="fas fa-check-circle"></i> Retirement Planning</li>
+                        <li><i class="fas fa-check-circle"></i> Tax Optimization</li>
+                        <li><i class="fas fa-check-circle"></i> Estate Planning</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 FinHealthCheckUp. All Rights Reserved. | Registered with SEBI as Investment Advisors</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentStep = 1;
+            const totalSteps = 8;
+            let answers = Array(totalSteps).fill(0);
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            const resultContainer = document.getElementById('result-container');
+            
+            function updateProgress() {
+                const progressPercentage = ((currentStep - 1) / totalSteps) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                progressText.textContent = `${Math.round(progressPercentage)}%`;
+                prevBtn.style.display = currentStep > 1 ? 'inline-block' : 'none';
+                nextBtn.style.display = currentStep < totalSteps ? 'inline-block' : 'none';
+                submitBtn.style.display = currentStep === totalSteps ? 'inline-block' : 'none';
+            }
+            
+            function showCurrentStep() {
+                document.querySelectorAll('.question').forEach(question => {
+                    if (parseInt(question.dataset.step) === currentStep) {
+                        question.style.display = 'block';
+                    } else {
+                        question.style.display = 'none';
+                    }
+                });
+            }
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    this.parentElement.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    const step = this.closest('.question').dataset.step;
+                    answers[step - 1] = parseInt(this.dataset.value);
+                });
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                if (answers[currentStep - 1] === 0) {
+                    alert('Please select an option to proceed');
+                    return;
+                }
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    showCurrentStep();
+                    updateProgress();
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 1) {
+                    currentStep--;
+                    showCurrentStep();
+                    updateProgress();
+                }
+            });
+            
+            submitBtn.addEventListener('click', function() {
+                if (answers[currentStep - 1] === 0) {
+                    alert('Please select an option to proceed');
+                    return;
+                }
+                const totalScore = answers.reduce((sum, value) => sum + value, 0);
+                const scorePercentage = Math.round((totalScore / 40) * 100);
+                document.getElementById('score-value').textContent = scorePercentage;
+                
+                let scoreText, description;
+                if (scorePercentage >= 80) {
+                    scoreText = "Excellent Financial Health";
+                    description = "Congratulations! Your financial health is excellent. You have strong savings, adequate insurance coverage, and a well-diversified investment portfolio.";
+                } else if (scorePercentage >= 60) {
+                    scoreText = "Good Financial Health";
+                    description = "Your financial health is in good shape, but there's room for improvement. Consider increasing your life insurance coverage and diversifying your investments.";
+                } else if (scorePercentage >= 40) {
+                    scoreText = "Fair Financial Health";
+                    description = "Your financial health needs attention. Focus on building your emergency fund and increasing insurance coverage to protect your family's future.";
+                } else {
+                    scoreText = "Poor Financial Health";
+                    description = "Your financial health requires immediate attention. Create a budget, establish an emergency fund, and obtain adequate life insurance protection.";
+                }
+                
+                document.getElementById('score-text').textContent = scoreText;
+                document.getElementById('score-description').innerHTML = `<p>${description}</p>`;
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.getElementById('lead-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                alert(`Thank you ${name}! Our financial advisor will contact you shortly at ${phone} or ${email}.`);
+                this.reset();
+            });
+            
+            showCurrentStep();
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
